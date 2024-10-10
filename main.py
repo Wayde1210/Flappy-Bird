@@ -77,5 +77,101 @@ class Bird(pygame.sprite.sprite):
                 self.vel=8
             if self.rect.bottom <768:
                 self.rect.y += int(self.vel)
+        if game_over==False:
+            #jump
+            pygame.mouse.get_pressed()[0]==1 and self.clicked==False
+            self.clicked=True
+            self.vel=-10
+            if pygame.mouse.get_pressed()[0]==1:
+                self.clicked=False
 
-            
+
+            #handle the animation
+            flap_cooldown=5
+            self.counter+=1
+
+            if self.counter>flap_cooldown:
+                self.counter=0
+                self.index+=1
+                if self.index>=len(self.images)                                                                                                                            :
+                    self.index=0
+                self.image=self.images[self.index                                                                                                                          ]
+
+            #rotate the bird
+            self.image=pygame.transform.rotate(self.images[self.index])    (((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((())))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+
+        else:
+        #point the bird at the ground
+            self.image=pygame.transform.rotate(self.images[self.index],-90)
+
+class Pipe(pygame.sprite):
+    def __init__(self,x,y,position):
+        pygame.sprite.Sprite.__init__(self)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+        self.image=pygame.image.load('flappy bird/assets/pipe.png')
+        self.rect=self.image.get_rect()
+        #position variables determins whether pipe comes from top or bottom
+        #if position is 1 then pipe comes from top and if -1 then comes from bottom
+        if position==1:
+            self.image=pygame.transform.flip(self.image,False,True)
+            self.rect.bottomLeft=[x,y-int(pip_gap/2)]
+        else:
+            self.rect.topleft[x,y+int(pip_gap/2)]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+
+    def update (self):
+        self.rect.x -=scroll_speed
+        if self.rect.right<0:
+            self.kill()#
+
+class Button():
+    def __init__(self,x,y,image):
+        self.image=image
+        self.rect=self.image.get_rect()
+        self.rect.topLeft=(x,y)
+
+    def draw(self):
+        action=False
+
+        #get mouse position
+        pos = pygame.mouse.get_pos()
+
+        #get mouseover and clicked
+        if self.rect.collidepoint(pos):
+            if pygame.mouse.get_pressed()[0]==1:
+                action=True
+
+        #draw button
+        screen.blit(self.image,(self.rect.x, self.rect.y))
+        return action
+
+
+pipe_group=pygame.sprite.Group()
+bird_group=pygame.sprite.Group()
+
+flappy=Bird(100,int(HEIGHT/2))
+
+bird_group.add(flappy)
+
+
+#restart button
+button=Button(WIDTH//2-50,HEIGHT//2-100,button_img)
+
+run==True
+while run:
+    clock.tick(fps)
+
+    #draw background
+    screen.blit(bg,(0,0))
+
+    pipe_group.draw(screen)
+    bird_group.draw(screen)
+    bird_group.update()
+
+    #draw and scroll the ground
+    screen.blit(ground_img,(ground_Scroll,768))
+
+    #check the score
+    if len(pipe_group)>0:
+        if bird_group.sprites()[0].rect.left>pipe_group.sprites()[0].rect.left\
+        and bird_group.sprites()[0].rect.right<pipe_group.sprites()[0].rect.right\
+        and pass_pipe==False:
+            pass_pipe=True
